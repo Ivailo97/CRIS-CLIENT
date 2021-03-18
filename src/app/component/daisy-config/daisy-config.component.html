@@ -1,0 +1,186 @@
+<form *ngIf="!device;else configuredDevice" [formGroup]="configForm" (ngSubmit)="onSubmit()">
+  <div class="card m-3">
+    <h5 class="card-header text-center">Конфигурации</h5>
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group col-3">
+          <label>Номер уст-во
+            <input type="text" class="form-control" formControlName="deviceName" required>
+          </label>
+        </div>
+        <div class="form-group col-3">
+          <label>Локация уст-во
+            <input type="text" class="form-control" formControlName="deviceLocation" required>
+          </label>
+        </div>
+        <div class="form-group col-3">
+          <label>Локация на отчет
+            <input type="text" class="form-control" formControlName="dirToListen" required>
+          </label>
+        </div>
+        <div class="form-group col-3">
+          <label>Акаунтинг адрес
+            <input type="text" class="form-control" formControlName="astoreUrl" required>
+          </label>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-3">
+          <label>Потребител
+            <input type="text" class="form-control" formControlName="astoreUsername" required>
+          </label>
+        </div>
+        <div class="form-group col-3">
+          <label>Парола
+            <input type="password" class="form-control" formControlName="astorePassword" required>
+          </label>
+        </div>
+        <div class="form-group col-3">
+          <label>Департаменти
+            <input type="number" class="form-control" formControlName="numberOfDepartments" required
+                   (input)="onChangeDepartments($event)">
+          </label>
+          <div *ngIf="submitted && f.numberOfDepartments.errors" class="invalid-feedback">
+            <div *ngIf="f.numberOfDepartments.errors.required">Number of departments is required</div>
+          </div>
+        </div>
+        <div class="form-group col-3">
+          <label>Артикули
+            <input type="number" class="form-control" formControlName="numberOfItems" required
+                   (input)="onChangeItems($event)">
+          </label>
+          <div *ngIf="submitted && f.numberOfItems.errors" class="invalid-feedback">
+            <div *ngIf="f.numberOfItems.errors.required">Number of items is required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let dep of deps.controls; let i = index" class="list-group list-group-flush">
+      <div class="list-group-item">
+        <h5 class="card-title">Департамент {{i + 1}}</h5>
+        <div [formGroup]="dep" class="form-row">
+          <div class="form-group col-3">
+            <label for="depName">Име</label>
+            <input id="depName" type="text" formControlName="name" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && dep.controls.name.errors }"/>
+            <div *ngIf="submitted && dep.controls.name.errors" class="invalid-feedback">
+              <div *ngIf="dep.controls.name.errors.required">Name is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="number">Номер</label>
+            <input id="number" type="number" formControlName="number" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && dep.controls.number.errors }"/>
+            <div *ngIf="submitted && dep.controls.number.errors" class="invalid-feedback">
+              <div *ngIf="dep.controls.number.errors.required">Number is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="tax">Данъчна група</label>
+            <select id="tax" formControlName="taxGroup" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && dep.controls.taxGroup.errors }">
+              <option *ngFor="let group of depTaxGroups" [value]="group">{{group}}</option>
+            </select>
+            <div *ngIf="submitted && dep.controls.taxGroup.errors" class="invalid-feedback">
+              <div *ngIf="dep.controls.taxGroup.errors.required">Tax group is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="maxDigits">Макс цифри</label>
+            <input id="maxDigits" type="number" formControlName="maxDigits" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && dep.controls.maxDigits.errors }"/>
+            <div *ngIf="submitted && dep.controls.maxDigits.errors" class="invalid-feedback">
+              <div *ngIf="dep.controls.maxDigits.errors.required">Max digits are required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let item of items.controls; let i = index" class="list-group list-group-flush">
+      <div class="list-group-item">
+        <h5 class="card-title">Артикул {{i + 1}}</h5>
+        <div [formGroup]="item" class="form-row">
+          <div class="form-group col-3">
+            <label for="itemNumber">Номер</label>
+            <input id="itemNumber" type="number" formControlName="number" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && item.controls.number.errors }"/>
+            <div *ngIf="submitted && item.controls.number.errors" class="invalid-feedback">
+              <div *ngIf="item.controls.number.errors.required">Number is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="name">Име</label>
+            <input id="name" type="text" formControlName="name" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && item.controls.name.errors }"/>
+            <div *ngIf="submitted && item.controls.name.errors" class="invalid-feedback">
+              <div *ngIf="item.controls.name.errors.required">Name is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="price">Цена</label>
+            <input id="price" type="number" formControlName="price" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && item.controls.price.errors }"/>
+            <div *ngIf="submitted && item.controls.price.errors" class="invalid-feedback">
+              <div *ngIf="item.controls.price.errors.required">Price is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="quantity">Количество</label>
+            <input id="quantity" type="number" formControlName="quantity" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && item.controls.quantity.errors }"/>
+            <div *ngIf="submitted && item.controls.quantity.errors" class="invalid-feedback">
+              <div *ngIf="item.controls.quantity.errors.required">Quantity is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="department">Департамент</label>
+            <select id="department" formControlName="department" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && item.controls.department.errors }">
+              <option *ngFor="let department of departments" [value]="department">{{department}}</option>
+            </select>
+            <div *ngIf="submitted && item.controls.department.errors" class="invalid-feedback">
+              <div *ngIf="item.controls.department.errors.required">Department is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="taxGroup">Данъчна група</label>
+            <select id="taxGroup" formControlName="taxGroup" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && item.controls.taxGroup.errors }">
+              <option *ngFor="let group of taxGroups" [value]="group">{{group}}</option>
+            </select>
+            <div *ngIf="submitted && item.controls.taxGroup.errors" class="invalid-feedback">
+              <div *ngIf="item.controls.taxGroup.errors.required">Tax group is required</div>
+            </div>
+          </div>
+          <div class="form-group col-3">
+            <label for="barcode">Баркод</label>
+            <input id="barcode" type="text" formControlName="barcode" class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && item.controls.barcode.errors }"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-center">
+      <button type="submit" class="btn-secondary mr-1" [disabled]="!configForm.valid">Регистрирай</button>
+      <button class="btn btn-secondary mr-1" type="reset" (click)="onReset()">Презареди</button>
+      <button class="btn btn-secondary" type="button" (click)="onClear()">Изчисти</button>
+    </div>
+  </div>
+  <p class="text-center">
+    Form Status: {{ configForm.status }}
+  </p>
+</form>
+<ng-template #configuredDevice>
+
+  <div class="container">
+    <div class="fDD">
+      <div class="DD det">
+        <p> Номер:<b> {{device.deviceName}}</b></p>
+        <p> Локация:<b> {{device.deviceLocation}}</b></p>
+        <p> Акаунтинг адрес:<b> {{device.astoreUrl}}</b></p>
+        <p> Директория за отчет:<b> {{device.dirToListen}}</b></p>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

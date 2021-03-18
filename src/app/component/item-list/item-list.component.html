@@ -1,0 +1,80 @@
+<mat-form-field>
+  <mat-label>Търси</mat-label>
+  <input class="mat-form-field" matInput placeholder="Ex. Mia" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+
+  <div class="spinner-container" *ngIf="itemDatasource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <table mat-table [dataSource]="itemDatasource" matSort matSortActive="name" matSortDirection="asc"
+         matSortDisableClear>
+
+    <!-- Number Column -->
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Номер</th>
+      <td mat-cell *matCellDef="let row"> {{row.number}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Име</th>
+      <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Цена</th>
+      <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+    </ng-container>
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Количество</th>
+      <td mat-cell *matCellDef="let row"> {{row.quantity}} </td>
+    </ng-container>
+
+    <!-- Department Column -->
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Департамент</th>
+      <td mat-cell *matCellDef="let row"> {{row.department}} </td>
+    </ng-container>
+
+    <!-- Tax Group Column -->
+    <ng-container matColumnDef="taxGroup">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Данъчна група</th>
+      <td mat-cell *matCellDef="let row"> {{row.taxGroup}} </td>
+    </ng-container>
+
+    <!-- Barcode Column -->
+    <ng-container matColumnDef="barcode">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Баркод</th>
+      <td mat-cell *matCellDef="let row"> {{row.barcode === '' ? 'няма' : row.barcode}} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Действие</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-raised-button (click)="sell(row)" class="btn-info">Продай</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <mat-paginator [length]="totalCount" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>
+
+<section>
+  <div class="example-button-row">
+    <button mat-raised-button (click)="dailyReport()" class="btn-info">Дневен отчет</button>
+    <button mat-raised-button (click)="report()" class="btn-info">Дневен отчет по артикули</button>
+    <button mat-raised-button (click)="delete()" class="btn-info">Изтрий всички</button>
+  </div>
+</section>

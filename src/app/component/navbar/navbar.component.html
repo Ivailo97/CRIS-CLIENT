@@ -1,0 +1,22 @@
+<div class="nav">
+  <input type="checkbox" id="nav-check">
+  <div class="nav-header">
+    <div class="nav-title">
+      CRIS
+    </div>
+  </div>
+  <div class="nav-btn">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+
+  <div class="nav-links">
+      <a *ngIf="loggedIn" routerLink="/config">Настрой</a>
+      <a *ngIf="loggedIn" routerLink="/items">Артикули</a>
+      <a *ngIf="loggedIn" (click)="logout()">Изход</a>
+      <a *ngIf="!loggedIn" routerLink="/login">Вход</a>
+  </div>
+</div>

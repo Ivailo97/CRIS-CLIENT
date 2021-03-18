@@ -1,0 +1,52 @@
+/*!* ProfileEditorComponent's private CSS styles *!*/
+:host {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+}
+
+/*label {*/
+/*  display: block;*/
+/*  width: 6em;*/
+/*  margin: .5em 0;*/
+/*  color: #607D8B;*/
+/*  font-weight: bold;*/
+/*}*/
+
+button {
+  font-family: Arial, sans-serif;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: aqua;
+  color: #333333;
+}
+
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
+/*detailsPage*/
+.container{
+  padding: 20px;
+  background: #fff;
+  width: 500px;
+  margin: 10px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+.fDD{
+  font-size: 22px;
+}
+.DD{
+  display: inline-block;
+}
+.det{
+  padding: 20px;
+  float: left;
+  font-family: 'Karla', sans-serif;
+}
